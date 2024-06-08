@@ -33,7 +33,7 @@ public class VistaMascota extends Application{
         // Set the Scene to the Stage
         stage.setScene(scene);
         // Set the Title to the Stage
-        stage.setTitle("My First FXML Example");
+        stage.setTitle("Veterinaria");
         stage.resizableProperty().setValue(Boolean.FALSE);
         // Display the Stage
         stage.show();

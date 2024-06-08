@@ -10,11 +10,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.event.ActionEvent;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.net.URL;
 
 public class ControlRegistro {
-
+    private List<Mascota> mascotas = new ArrayList();
+    
     @FXML
     private ResourceBundle resources;
 
@@ -31,13 +32,13 @@ public class ControlRegistro {
     private Button btnSalir;
 
     @FXML
-    private TableColumn<Mascota, String> colEdad;
+    private TableColumn<Mascota, String> colNombre;
 
     @FXML
     private TableColumn<Mascota, String> colEspecie;
 
     @FXML
-    private TableColumn<Mascota, Integer> colNombre;
+    private TableColumn<Mascota, Integer> colEdad;
 
     @FXML
     private TableColumn<Mascota, String> colRaza;
@@ -68,7 +69,6 @@ public class ControlRegistro {
 
     @FXML
     private TextField txtRaza;
-    private ObservableList<Mascota> mascotas;
 
     @FXML
     void agregarMascota(ActionEvent event) {
@@ -79,13 +79,13 @@ public class ControlRegistro {
         
         Mascota mascota = new Mascota(nombre, especie, edad, raza);
         mascotas.add(mascota);
-        tblMascotas.setItems(mascotas);
 
         // Clear input fields after adding
         txtNombre.clear();
         txtEspecie.clear();
         txtEdad.clear();
         txtRaza.clear();
+        txtNombre.requestFocus();
     }
 
     @FXML
@@ -95,7 +95,8 @@ public class ControlRegistro {
 
     @FXML
     void mostrarMascotas(ActionEvent event) {
-        tblMascotas.setItems(mascotas);
+        tblMascotas.getItems().clear();
+        tblMascotas.getItems().addAll(mascotas);
     }
 
     @FXML
@@ -120,11 +121,14 @@ public class ControlRegistro {
 
 
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colEspecie.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+        colEspecie.setCellValueFactory(new PropertyValueFactory<>("especie"));
         colEdad.setCellValueFactory(new PropertyValueFactory<>("edad"));
-        colRaza.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-
-        tblMascotas.setItems(mascotas);
-
+        colRaza.setCellValueFactory(new PropertyValueFactory<>("raza"));
+        
+        txtNombre.requestFocus();
+        txtNombre.setOnAction(event -> txtEspecie.requestFocus());
+        txtEspecie.setOnAction(event -> txtEdad.requestFocus());
+        txtEdad.setOnAction(event -> txtRaza.requestFocus());
+        txtRaza.setOnAction(this::agregarMascota);
     }
 }
